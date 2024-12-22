@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Moderation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        audio {
+            margin-top: 10px;
+        }
+        .file-item {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pending Music Moderation</h1>
+    <ul id="pending-list"></ul>
+
+    <audio controls id="audio-player">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Fetch pending files
+        fetch('http://127.0.0.1:8080/music/pending')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => console.error('Error:', error));
+    
+
+        // Moderate file (approve or reject)
+        function moderateFile(file, approved) {
+            const fileId = file.match(/\(ID: (.+)\)$/)[1];
+            fetch('/music/moderate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ fileId, approved })
+            }).then(response => {
+                if (response.ok) {
+                    alert(`File ${approved ? "approved" : "rejected"} successfully.`);
+                    location.reload(); // Reload list
+                } else {
+                    alert("Error moderating file.");
+                }
+            });
+        }
+    </script>
+</body>
+</html>
