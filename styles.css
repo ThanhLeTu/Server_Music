@@ -1,0 +1,122 @@
+
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        /* Header */
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        header .logout-btn {
+            color: #fff;
+            text-decoration: none;
+            font-size: 14px;
+            background-color: #ff4d4d;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        header .logout-btn:hover {
+            background-color: #e60000;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #f4f4f9;
+            padding-bottom: 10px;
+        }
+
+        /* Pending List */
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .file-item:hover {
+            background-color: #f1f1f1;
+        }
+
+        .file-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .file-info span {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .file-actions button {
+            margin-left: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .file-actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .file-actions .reject-btn {
+            background-color: #ff4d4d;
+        }
+
+        .file-actions .reject-btn:hover {
+            background-color: #e60000;
+        }
+
+        .file-actions .play-btn {
+            background-color: #28a745;
+        }
+
+        .file-actions .play-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+        }
