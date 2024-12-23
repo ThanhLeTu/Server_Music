@@ -37,7 +37,7 @@
 
     <script>
         // Fetch pending files
-        fetch('http://127.0.0.1:8443/music/pending')
+        fetch('https://127.0.0.1:8443/music/pending')
             .then(response => {
                 if (!response.ok) throw new Error('Failed to fetch pending files.');
                 return response.json();
@@ -62,7 +62,7 @@
                     playButton.textContent = 'Play';
                     playButton.onclick = () => {
                         const fileId = file.match(/\(ID: (.+)\)$/)[1];
-                        const audioPlayer = new Audio(`http://127.0.0.1:8080/music/stream?fileId=${fileId}`);
+                        const audioPlayer = new Audio(`https://127.0.0.1:8443/music/stream?fileId=${fileId}`);
                         audioPlayer.play();
                     };
 
@@ -90,7 +90,7 @@
         // Moderate file (approve or reject)
         function moderateFile(file, approved) {
             const fileId = file.match(/\(ID: (.+)\)$/)[1];
-            fetch('http://127.0.0.1:8080/music/moderate', {
+            fetch('https://127.0.0.1:8443/music/moderate', { // Updated to use HTTPS and port 8443
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: new URLSearchParams({ fileId, approved })
