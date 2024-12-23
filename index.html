@@ -37,7 +37,7 @@
 
     <script>
         // Fetch pending files
-        fetch('http://127.0.0.1:8080/music/pending')
+        fetch('http://127.0.0.1:8443/music/pending')
             .then(response => {
                 if (!response.ok) throw new Error('Failed to fetch pending files.');
                 return response.json();
