@@ -37,16 +37,28 @@
 
     <script>
 
-        // Kết nối WebSocket
 const socket = new WebSocket('wss://127.0.0.1:8443/ws/moderation');
 
-// Lắng nghe sự kiện từ server
-socket.onmessage = (event) => {
-    const message = event.data;
-    alert(message); // Hiển thị thông báo (hoặc cập nhật giao diện)
-    // Có thể tự động cập nhật danh sách bằng cách gọi lại API /pending
-    fetchPendingFiles();
+// Xử lý khi kết nối thành công
+socket.onopen = () => {
+    console.log('WebSocket connection established.');
 };
+
+// Xử lý khi nhận được tin nhắn từ server
+socket.onmessage = (event) => {
+    console.log('Message from server:', event.data);
+};
+
+// Xử lý lỗi
+socket.onerror = (error) => {
+    console.error('WebSocket error:', error);
+};
+
+// Xử lý khi kết nối đóng
+socket.onclose = () => {
+    console.log('WebSocket connection closed.');
+};
+
 
 // Hàm fetch danh sách file
 function fetchPendingFiles() {
