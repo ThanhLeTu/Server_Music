@@ -43,9 +43,9 @@
 
                         const fileInfo = document.createElement('div');
                         fileInfo.className = 'file-info';
-                        fileInfo.innerHTML = 
+                        fileInfo.innerHTML = `
                             <span><strong>File:</strong> ${file}</span>
-                        ;
+                        `;
 
                         const actions = document.createElement('div');
                         actions.className = 'file-actions';
@@ -55,7 +55,7 @@
                         playButton.textContent = 'Play';
                         playButton.onclick = () => {
                             const fileId = file.match(/\(ID: (.+)\)$/)[1];
-                            const audioPlayer = new Audio(https://127.0.0.1:8443/music/stream?fileId=${fileId});
+                            const audioPlayer = new Audio(`https://127.0.0.1:8443/music/stream?fileId=${fileId}`);
                             audioPlayer.play();
                         };
 
@@ -90,7 +90,7 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        alert(File ${approved ? 'approved' : 'rejected'} successfully.);
+                        alert(`File ${approved ? 'approved' : 'rejected'} successfully.`);
                         fetchPendingFiles(); // Update list dynamically
                     } else {
                         alert('Error moderating file.');
@@ -102,6 +102,5 @@
         // Fetch files on load
         fetchPendingFiles();
     </script>
-
 </body>
 </html>
