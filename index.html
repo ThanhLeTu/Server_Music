@@ -29,76 +29,58 @@
         const pendingList = document.getElementById('pending-list');
 
         // Fetch pending files
-        function fetchPendingFiles() {
-            fetch('https://127.0.0.1:8443/music/pending')
-                .then(response => {
-                    if (!response.ok) throw new Error('Failed to fetch pending files.');
-                    return response.json();
-                })
-                .then(data => {
-                    pendingList.innerHTML = '';
-                    data.forEach(file => {
-                        const listItem = document.createElement('li');
-                        listItem.className = 'file-item';
+       function fetchPendingFiles() {
+    fetch('https://127.0.0.1:8443/music/pending')
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to fetch pending files.');
+            return response.json();
+        })
+        .then(data => {
+            pendingList.innerHTML = '';
+            data.forEach(file => {
+                const listItem = document.createElement('li');
+                listItem.className = 'file-item';
 
-                        const fileInfo = document.createElement('div');
-                        fileInfo.className = 'file-info';
-                        fileInfo.innerHTML = `
-                            <span><strong>File:</strong> ${file}</span>
-                        `;
+                const fileInfo = document.createElement('div');
+                fileInfo.className = 'file-info';
+                fileInfo.innerHTML = `<span><strong>File:</strong> ${file.fileName}</span>`;
 
-                        const actions = document.createElement('div');
-                        actions.className = 'file-actions';
+                const actions = document.createElement('div');
+                actions.className = 'file-actions';
 
-                        const playButton = document.createElement('button');
-                        playButton.className = 'play-btn';
-                        playButton.textContent = 'Play';
-                        playButton.onclick = () => {
-                            const fileId = file.match(/\(ID: (.+)\)$/)[1];
-                            const audioPlayer = new Audio(`https://127.0.0.1:8443/music/stream?fileId=${fileId}`);
-                            audioPlayer.play();
-                        };
+                const approveButton = document.createElement('button');
+                approveButton.textContent = 'Approve';
+                approveButton.onclick = () => moderateFile(file.fileId, true);
 
-                        const approveButton = document.createElement('button');
-                        approveButton.textContent = 'Approve';
-                        approveButton.onclick = () => moderateFile(file, true);
+                const rejectButton = document.createElement('button');
+                rejectButton.textContent = 'Reject';
+                rejectButton.onclick = () => moderateFile(file.fileId, false);
 
-                        const rejectButton = document.createElement('button');
-                        rejectButton.className = 'reject-btn';
-                        rejectButton.textContent = 'Reject';
-                        rejectButton.onclick = () => moderateFile(file, false);
+                actions.appendChild(approveButton);
+                actions.appendChild(rejectButton);
 
-                        actions.appendChild(playButton);
-                        actions.appendChild(approveButton);
-                        actions.appendChild(rejectButton);
-
-                        listItem.appendChild(fileInfo);
-                        listItem.appendChild(actions);
-                        pendingList.appendChild(listItem);
-                    });
-                })
-                .catch(error => console.error('Error fetching pending files:', error));
-        }
+                listItem.appendChild(fileInfo);
+                listItem.appendChild(actions);
+                pendingList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error fetching pending files:', error));
+}
 
         // Moderate file
-        function moderateFile(fileName, approved) {
-    const fileId = fileName.match(/\(ID: (.+)\)$/)?.[1];
-    if (!fileId) {
-        alert('Invalid file name format.');
-        return;
-    }
-
+       function moderateFile(fileId, approved) {
     fetch('https://127.0.0.1:8443/music/moderate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ fileName, approved })
+        body: new URLSearchParams({ fileId, approved })
     })
         .then(response => {
-            if (response.ok) {
-                alert(`File ${approved ? 'approved' : 'rejected'} successfully.`);
-                fetchPendingFiles(); // Update list dynamically
-            } else {
+            if (!response.ok) {
+                console.error("Server response:", response.status, response.statusText);
                 alert('Error moderating file.');
+            } else {
+                alert(`File ${approved ? 'approved' : 'rejected'} successfully.`);
+                fetchPendingFiles();
             }
         })
         .catch(error => console.error('Error moderating file:', error));
